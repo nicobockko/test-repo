@@ -1,1 +1,100 @@
-ㄹㅇㄹㄴㅇㄹ
+div 요소는 가로로 커지려고한다
+
+컨테이너는 너비가 제한되어 화면중앙에정렬된다...
+뷰포트 사이즈에따라 어떤사이즈로 되는지는 
+문서에 정의되어있따... 대박..
+
+
+하나의줄 row는 12개로쪼개져있따...
+
+하나의 로우에 4,4,8 이렇게 12를초과하게넣으면 줄바꿈일어난다..?
+col-md-7 이렇게하면 뷰포트 크기가 md일때 7..로변경된다,,,
+breakpoints 링크에 기준이있음....?
+
+
+input 요소 form-control클래스 을 컨테이너로 감쌋옹..
+
+폼컨트롤은뭐하는거지..
+
+type에 text, password
+
+href = 선택자 가능  #은 id선택자 
+
+그림자
+
+mt-1 하면 0.25 * 16px 만큼 
+
+@media 반응형.. 
+
+반응형컬럼,,
+col-lg-5 col-md-6 col-12
+
+
+16:9 비율... 맞춰주는,,
+border radius 로 모서리를깍는데
+삐져나가는건 히든으로같이처리를해줘야댐...
+
+
+인라인요소 내부에 블록요소 작성불가,,
+
+인라인요소는 상하마진사용불가
+
+블럭은 세로로 쌓이면서
+가로방향으로 자기부모크기만큼최대늘어나려고함
+
+세로는 줄어들려고함 모두 (자식들이잡아먹는사이즈에기인하는듯)
+
+인라인블럭 
+
+
+
+border 
+line-height
+text-align
+
+font-weight
+
+
+position: absolute : 부모요소중에 기준이 확립된놈 기준으로  배치하겠다 
+left 50px
+부모요소중에 position relative라고 정의된놈이있어야함
+
+
+
+수평정렬하고싶은요소들의 부모한놈한테 플렉스라고 해놔야함
+
+justifiy-content: flex-end; 우측으로감
+justifiy-content: flex-center; 왼쪾으로감(기본값)
+justifiy-content: flex-start; 왼쪾으로감(기본값)
+
+
+
+플랙스 는 자기바로아래 자식한테만 영향을미친다 
+ 
+안녕 이란 글자를 DIV로 감싸면 안녕은 이 DIV의 자식으로봐야함
+
+즉DIV의부모가 있다면 안녕은 그부모의자식은아닌거임 
+
+
+근데 이 안녕을감싼 div는 크기를 잡아놧기떄문에 여백이많은데
+이떄 flex에 align-items :center 하면 수직 정렬 센터다 
+
+
+
+
+git add .
+git status
+
+브랜치..
+
+
+
+git remote add origin https://github.com/nicobockko/test-repo.git
+
+
+
+
+
+
+
+
