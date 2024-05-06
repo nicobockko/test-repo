@@ -34,7 +34,7 @@ data = {
 df = pd.DataFrame(data)
 
 # 날짜를 datetime 형식으로 변환하고 인덱스로 설정
-df['날짜'] = pd.to_datetime(df['날짜'])
+df['날짜'] = pd.to_datetime(df['날짜'])#.dt.normalize()
 all_dates = pd.date_range(start = df['날짜'].min(), end = df['날짜'].max(), freq='D')
 df['날'] = df['날짜'].dt.strftime('%Y-%m-%d')
 df['날'] = df['날'].astype('category').cat.set_categories(all_dates)# 이렇게해줘야  cumsum()해서 모든값이 생긴다
