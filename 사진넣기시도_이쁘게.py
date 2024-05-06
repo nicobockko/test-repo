@@ -51,8 +51,9 @@ def main():
                         'backgroundColor':  {
                             # 'image': r'C:\Users\cjs91\PycharmProjects\pythonProject\git_pjt\img.png'
                             #  'image': a #로컬파일을 심으려면어떻게해야하지..
-                            'image':'https://echarts.apache.org/examples/data/asset/img/weather/sunny_128.png'
-                        }
+                            # 'image':'https://echarts.apache.org/examples/data/asset/img/weather/sunny_128.png'
+                            'image':'/assets/img.png'
+    }
                     },
                     'Cloudy': {
                         'height': 40,
