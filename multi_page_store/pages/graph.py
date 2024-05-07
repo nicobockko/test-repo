@@ -1,0 +1,46 @@
+from dash import dcc, html, Input, Output, callback, register_page
+import plotly.express as px
+import pandas as pd
+
+register_page(__name__, path="/a")
+
+df = px.data.gapminder()
+years = df.year.unique()
+
+layout = html.Div(
+    [
+        html.Label("Select Year",id='aaa'),
+        dcc.Dropdown(years, years[-1], id="year", clearable=False, persistence="session"),
+        dcc.Graph(id="graph"),
+
+
+    ] + [html.P("a")]*100+[html.A('Go to Section 1', href='#aaa'),]
+)
+
+#
+# @callback(
+#     Output("store", "data"),
+#     Input("year", "value"),
+# )
+# def get_data(year):
+#     # simulate some expensive data processing step
+#     # store results in a dcc.Store in app.py
+#     dff = df.query(f"year=={year}")
+#     return dff.to_dict("records")
+#
+#
+# @callback(
+#     Output("graph", "figure"),
+#     Input("store", "data"),
+# )
+# def update(store):
+#     dff = pd.DataFrame(store)
+#     return px.scatter(
+#         dff,
+#         x="gdpPercap",
+#         y="lifeExp",
+#         size="pop",
+#         color="continent",
+#         log_x=True,
+#         size_max=60,
+#     )

@@ -1,0 +1,14 @@
+
+/*와 이렇게해야 table이 부모싸이즈따라가네 table이 col에
+ 항상들어가는건아니긴한데..쩝 암튼 아이정도면됐어 ㅆㅂ*/
+.col{
+    height: 100% ;
+}
+
+.dash-spreadsheet-container{
+    height: 100% ;
+}
+
+.dash-table-container{
+    height: 100% ;
+}

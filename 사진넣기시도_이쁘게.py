@@ -153,7 +153,6 @@ def main():
                 "imglabel":
                 r'''
                 function (value) {
-                console.log(value);
                 console.log('{' + value + '| }{value|' + value + '}');
                  return '{' + value + '| }\n{value|' + value + '}'
                 }
