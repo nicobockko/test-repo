@@ -1,14 +1,33 @@
 
 /*와 이렇게해야 table이 부모싸이즈따라가네 table이 col에
  항상들어가는건아니긴한데..쩝 암튼 아이정도면됐어 ㅆㅂ*/
-.col{
-    height: 100% ;
+.row{
+    background-color:blue;
+    margin :30px;
+}
+/*
+[class^="col-"] {
+    background-color: green;
+    height : 100%;
+}*/
+
+.col,.col-1,.col-2,.col-3,.col-4  {
+    /*height : 100%;*/
+    background-color:red;
+    margin :10px;
 }
 
 .dash-spreadsheet-container{
     height: 100% ;
 }
 
+.abc{
+
+}
 .dash-table-container{
-    height: 100% ;
+    /*height : 100% ;*/
+    flex : 1;
+    border-radius: 10px; /* 둥글게 하고자 하는 테두리의 반지름 값 설정 */
+    border: 2px solid black;
+    overflow: auto;
 }
