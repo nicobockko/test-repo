@@ -4,6 +4,13 @@ new Swiper('.swiper-container', {
   loop: true // 반복 재생 여부
 });
 
+console.log('ggg');
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://dash-test.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
 
 console.log('ggg');
 

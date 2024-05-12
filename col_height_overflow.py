@@ -1,5 +1,11 @@
+# 콕 찝어 설명하지 않으면 입문자 머리를 복잡하게 하는 것들
+# 즉,, 몰라도 되는것들...
+# input, range, map, filter, unpacking,
+# comprehension, 한줄 if, Class,
+# iterator , generator, decorator
+
 import dash
-from dash import dcc, html, dash_table
+from dash import dcc, html, dash_table, Input,Output,State
 import dash_ag_grid as dag  # pip install dash-ag-grid
 import dash_bootstrap_components as dbc
 import pandas as pd
@@ -11,17 +17,23 @@ def makedf(x,y):
     })
     return df
 
+df_link = pd.DataFrame(
+    {
+        '과제명': ['a','b','c'],
+        'Link': ['https://naver.com', None,'https://google.com']
+    }
+)
+
+
 def table(x,y):
     df = makedf(x,y)
-    return  dash_table.DataTable(
-        id='table',
+    return dash_table.DataTable(
         columns=[{"name": i, "id": i} for i in df.columns],
         data=df.to_dict('records'),
         style_table={
-            'overflow': 'auto',
-            'width': '100%',
-            'flex': 1,
-            # 'height':'100%'
+            # 'overflow': 'auto',
+            # 'width': '100%',
+            # 'flex': 1,
         },
         style_data_conditional=[
             {
@@ -30,8 +42,9 @@ def table(x,y):
                 'height': 'auto',
             }
         ],
-        # fill_width=False
-            )
+        fill_width=False)
+
+
 def table_ag(x,y):
     df = makedf(x,y)
     return dag.AgGrid(
@@ -44,8 +57,8 @@ def table_ag(x,y):
         # className="ag-theme-alpine",  # https://dashaggrid.pythonanywhere.com/layout/themes
         style={
             # 'height':'100%',
-            'flex':1,
-            'overflow':'auto'
+            # 'flex':1,
+            # 'overflow':'auto'
         }
         )
 
@@ -55,27 +68,44 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # 레이아웃 생성
 app.layout = html.Div([
+    html.Div(id='disqus_thread'),
+    html.Button(id='heropy',className='heropy', style={'width': '100px', 'height': '100px', 'backgroundColor': 'orange'}),
+    html.Div(id='heropyicon',className='icon',style = {'animationPlayState':'running'}),
     dbc.Container([
         dbc.Row([
-            dbc.Col([]),
-            dbc.Col(['안녕',table_ag(40,40)],width=4),
-            dbc.Col(['안녕',table(40,40)],width=4)
+            dbc.Col(['ss']),
+            dbc.Col([html.H1('안녕'),'안녕',table_ag(40,40)],width=4,style={'height':'400px'}),
+            dbc.Col([
+                html.H1('안녕'),'잘가',table(40,40)
+                 ],width=4,style={'height':'400px'})
         ],
         style={
-             'height':'500px',
         }),
         dbc.Row([
-            dbc.Col([]),
-            dbc.Col([]),
-            dbc.Col()
+            dbc.Col([],style={'height':'300px'}),
+            dbc.Col([],style={'height':'300px'}),
+            dbc.Col([],style={'height':'300px'})
         ],
-        style={
-            'height':'300px'
-        }),
+
+        ),
 
     ]),
-    table(10,10)
+    table(4,4),
+    html.Div(id='dummy_output'),
 ])
+
+@app.callback(
+    Output('heropyicon','style'),
+    Input('heropy','n_clicks'),
+    State('heropyicon','style'),
+    prevent_initial_call=True
+)
+def anyclick(n_clicks,style):
+    print(style) #만약 애니메이션 최초부터 시작하게하고싶으면...?
+    if style['animationPlayState'] =='running':
+        return {'animationPlayState': 'paused'}
+    return {'animationPlayState':'running'}
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
