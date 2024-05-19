@@ -24,12 +24,25 @@ df_link = pd.DataFrame(
     }
 )
 
-
 def table(x,y):
     df = makedf(x,y)
     return dash_table.DataTable(
         columns=[{"name": i, "id": i} for i in df.columns],
         data=df.to_dict('records'),
+        css=[{
+            'selector': '.dash-table-tooltip',
+            'rule': 'width: fit-content; min-width: unset; background-color:blue;'
+        }],
+        # css=[{
+        #     'selector': '.dash-tooltip',
+        #     'rule': 'width: fit-content; min-width: unset; background-color:blue;'
+        # }],
+        tooltip_data=[
+            {
+                column: {'value': str(value)*10, 'type': 'markdown'}
+                for column, value in row.items()
+            } for row in df.to_dict('records')
+        ],
         style_table={
             # 'overflow': 'auto',
             # 'width': '100%',
@@ -75,22 +88,21 @@ app.layout = html.Div([
         dbc.Row([
             dbc.Col(['ss']),
             dbc.Col([html.H1('안녕'),'안녕',table_ag(40,40)],width=4,style={'height':'400px'}),
-            dbc.Col([
-                html.H1('안녕'),'잘가',table(40,40)
-                 ],width=4,style={'height':'400px'})
+            dbc.Col([html.H1('안녕'),'잘가',table(40,5)],width=4,style={'height':'400px'})
         ],
         style={
         }),
         dbc.Row([
-            dbc.Col([],style={'height':'300px'}),
-            dbc.Col([],style={'height':'300px'}),
-            dbc.Col([],style={'height':'300px'})
+            dbc.Col([html.Img(src='/assets/apple.png')],style={}),
+            dbc.Col([html.A('구글메일창',href='https://mail.google.com/mail/u/0/#inbox?compose=CllgCJZcRTdSsLnhQKknDcKzbRVxpsfmcfFllKFSjqpLJcxZVMnzwLHxTNJGQxjWvSPMGJFqBcg')],style={}),
+            dbc.Col([html.A('아웃룩?',href='mailto:nicobockko@gmail.com'),
+                     html.Div('',className='card')],style={'height':'300px'})
         ],
 
         ),
 
     ]),
-    table(4,4),
+    table(20,4),
     html.Div(id='dummy_output'),
 ])
 

@@ -1,6 +1,6 @@
 import dash_echarts
 import dash
-from dash import html
+from dash import html, Output,Input,callback
 
 import pandas as pd
 def makeseriese(df):
@@ -12,7 +12,8 @@ def makeseriese(df):
             'name': k,
             'type': 'line',
             'stack': 'Total', #이렇게해야 누적이된당
-            'symbol': 'none',
+            # 'symbol': 'none',
+            'symbolSize':10,
             'data': v[['날',0]].values.tolist(),
             'areaStyle': {
                 'opacity': 0.3,
@@ -28,7 +29,7 @@ def makeseriese(df):
 # 데이터 생성
 data = {
     '지점': ['A', 'A', 'A', 'B', 'B'],
-    '날짜': ['2023-08-25', '2023-12-30', '2024-01-02', '2024-01-05', '2024-01-10'],
+    '날짜': ['2023-11-25', '2023-12-30', '2024-01-02', '2024-01-05', '2024-01-10'],
     '방문자수': [3, 1, 1, 1, 4]
 }
 df = pd.DataFrame(data)
@@ -51,8 +52,20 @@ def main():
         },
         'tooltip': {
             'trigger': 'axis',
-
         },
+        'brush': {
+            'toolbox': [
+                'rect',
+                'polygon',
+                'lineX',
+                'lineY',
+                'keep',
+                'clear'
+            ],
+            'xAxisIndex': 0
+        },
+
+
         'legend': {},
         'xAxis': {
             'type': 'time',
@@ -72,6 +85,10 @@ def main():
         'series': makeseriese(t)
     }
     app.layout = html.Div([
+        html.Div(id='output'),
+        html.Div(id='output2'),
+        html.Div(id='output3'),
+        html.Div(id='output4'),
         dash_echarts.DashECharts(
             option=option,
             id='echarts',
@@ -93,7 +110,36 @@ def main():
             }
         ),
     ])
+
+
     app.run_server(debug=True)
+@callback(
+    Output('output', 'children'),
+    [Input('echarts', 'click_data')])
+def update(data):
+    print("click_data",data)
+    if data:
+        return f"clicked: {data['name']}"
+    return 'not clicked!'
+
+@callback(
+    Output('output2', 'children'),
+    [Input('echarts', 'selected_data')])
+def update2(data):
+    print("selected_data",data)
+    return 'not clicked!'
+@callback(
+    Output('output3', 'children'),
+    [Input('echarts', 'brush_data')])
+def update3(data):
+    print("brush_data",data)
+    return 'not clicked!'
+@callback(
+    Output('output4', 'children'),
+    [Input('echarts', 'n_clicks')])
+def update4(data):
+    print("event",data)
+    return 'not clicked!'
 
 
 if __name__ == '__main__':
