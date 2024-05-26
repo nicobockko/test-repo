@@ -1,11 +1,19 @@
 import dash_echarts
 import dash
-from dash import html, Output,Input,callback
-
+from dash import html, Output,Input,callback,dcc
+import dash_bootstrap_components as dbc
 import pandas as pd
+import plotly.graph_objects as go
+from dash_extensions import DeferScript
+scat = go.Scatter(
+    x=[1,2,3,4],
+    y=[1,2,3,4],
+    mode="markers",
+    marker={"size": 8},
+)
+fig = go.Figure(data=[scat])
+
 def makeseriese(df):
-    #가로축이 time축임을 활용하려면 시리즈 내 데이터가 [[시간,값]] 이렇게 찎혀야한다,아.......!!!!!!!!!!!갯수가
-    # 일치하지않아도 되게끔하려고 이러는건가보다 미친꺠달음이다
     그래프시리즈 = []
     for k,v in df.groupby('지점'):
         데이터  = {
@@ -41,12 +49,7 @@ df['날'] = df['날짜'].dt.strftime('%Y-%m-%d')
 df['날'] = df['날'].astype('category').cat.set_categories(all_dates)# 이렇게해줘야  cumsum()해서 모든값이 생긴다
 
 t = df.groupby(['지점', '날'],observed=False).size().cumsum().reset_index()
-
-
-def main():
-    app = dash.Dash(__name__)
-
-    option = {
+option = {
         'title': {
             'text': 'Line Stacked'
         },
@@ -84,64 +87,67 @@ def main():
         },
         'series': makeseriese(t)
     }
-    app.layout = html.Div([
-        html.Div(id='output'),
-        html.Div(id='output2'),
-        html.Div(id='output3'),
-        html.Div(id='output4'),
-        dash_echarts.DashECharts(
+mychart =  dash_echarts.DashECharts(
             option=option,
             id='myecharts',
-            funs={
-                "ttt":
-                '''
-                function (params) {
-                var date = new Date(params.value); // Date 객체 생성
-                var formattedDate = date.toISOString().slice(0, 10); 
-                return formattedDate;
-                }
-                '''
-            },
-            fun_values=['ttt'],
+        )
 
-            # style={
-            #     "width": '100vw',
-            #     "height": '100vh',
-            #     "width": '100%',
-            #     "height": '100%',
-            # }
+
+def create_card(title, content):
+    card = dbc.Card(
+        dbc.CardBody(
+            [
+                html.H4(title, className="card-title"),
+                html.Br(),
+                html.Br(),
+                html.H2(content, className="card-subtitle"),
+                html.Br(),
+                html.Br(),
+                ]
         ),
-    ],style={'width':'400px','height':'400px'})
+        color="info", inverse=True
+    )
+    return(card)
+card4 = create_card("Number of Comment on Articles", "None Comments")
+card3 = create_card("Number of Articles", "None Articles")
+card2 = create_card("Number of Likes On Articles", "None Likes")
+card1 = create_card("Number of Helpfuls On Articles", "None    Helpfuls")
 
+cards = dbc.Row([
+            dbc.Col(card1,width=6,lg=3,sm=6),
+            dbc.Col(card1,width=6,lg=3,sm=6),
+            dbc.Col(card1,width=6,lg=3,sm=6),
+            dbc.Col(card1,width=6,lg=3,sm=6)
+])
+
+external_scripts=['https://cdnjs.cloudflare.com/ajax/libs/echarts/5.0.2/echarts.min.js']
+
+
+def main():
+    app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP]
+                    ,external_scripts=external_scripts
+                    )
+
+    app.layout = dbc.Container([
+        html.Div(id='aaaa'),
+        dbc.Row([
+            dbc.Col(html.Div(mychart,id='aaa'),width=6),
+            dbc.Col(cards,width=6),
+        ],style={'minHeight':'500px'}),
+        dbc.Row([
+            dbc.Col('1'),
+
+        ]),
+        dbc.Row([
+            dbc.Col('2',width=3),
+            dbc.Col(dcc.Graph(figure=fig,id='graph')),
+        ]),
+    DeferScript(src='/assets/custom-script.js')
+
+    ])
 
     app.run_server(debug=True)
-@callback(
-    Output('output', 'children'),
-    [Input('myecharts', 'click_data')])
-def update(data):
-    print("click_data",data)
-    if data:
-        return f"clicked: {data['name']}"
-    return 'not clicked!'
 
-@callback(
-    Output('output2', 'children'),
-    [Input('myecharts', 'selected_data')])
-def update2(data):
-    print("selected_data",data)
-    return 'not clicked!'
-@callback(
-    Output('output3', 'children'),
-    [Input('myecharts', 'brush_data')])
-def update3(data):
-    print("brush_data",data)
-    return 'not clicked!'
-@callback(
-    Output('output4', 'children'),
-    [Input('myecharts', 'n_clicks')])
-def update4(data):
-    print("event",data)
-    return 'not clicked!'
 
 
 if __name__ == '__main__':

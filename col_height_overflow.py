@@ -63,9 +63,9 @@ def table_ag(x,y):
     return dag.AgGrid(
         id="my-table",
         rowData=df.to_dict("records"),                                                          # **need it
-        columnDefs=[{"field": i} for i in df.columns],                                          # **need it
+        columnDefs=[{"field": i,'cellStyle': {'textAlign': 'right'}} for i in df.columns],                                          # **need it
         defaultColDef={"resizable": True, "sortable": True, "filter": True},
-        # columnSize="sizeToFit",
+        columnSize="sizeToFit",
         # dashGridOptions={"pagination": True, "paginationPageSize":10},
         # className="ag-theme-alpine",  # https://dashaggrid.pythonanywhere.com/layout/themes
         style={
