@@ -1,6 +1,7 @@
 import dash_echarts
 import dash
-from dash import html, Output,Input,callback,dcc
+from dash import html, Output,Input,callback,dcc , State
+from dash.exceptions import PreventUpdate
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.graph_objects as go
@@ -90,6 +91,7 @@ option = {
 mychart =  dash_echarts.DashECharts(
             option=option,
             id='myecharts',
+            style={'width':'100%', 'height':'500px'}
         )
 
 
@@ -131,8 +133,8 @@ def main():
     app.layout = dbc.Container([
         html.Div(id='aaaa'),
         dbc.Row([
-            dbc.Col(html.Div(mychart,id='aaa'),width=6),
-            dbc.Col(cards,width=6),
+            dbc.Col(html.Div(mychart,id='aaa'),width=6, lg=9),
+            dbc.Col(cards,width=6, lg=3),
         ],style={'minHeight':'500px'}),
         dbc.Row([
             dbc.Col('1'),
@@ -142,9 +144,23 @@ def main():
             dbc.Col('2',width=3),
             dbc.Col(dcc.Graph(figure=fig,id='graph')),
         ]),
-    DeferScript(src='/assets/custom-script.js')
+        dcc.Interval(id="interval", interval=1 * 1000, n_intervals=0),
+        DeferScript(src='/assets/custom-script.js')
 
     ])
+
+    # 일단 인터벌이 제일 합리적일듯...에휴
+    @app.callback(
+        Output('myecharts', 'option'),
+        [Input('interval', 'n_intervals')],
+        State('myecharts', 'option'))
+    def update(n_intervals, op):
+        if n_intervals == 0:
+            return op
+        else:
+            print('엥')
+
+            raise PreventUpdate
 
     app.run_server(debug=True)
 

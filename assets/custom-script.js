@@ -22,7 +22,6 @@ var echart = echarts.getInstanceByDom(hh);
 
 window.addEventListener('resize', function() {
     if (echart) {
-
         echart.resize();
     }
 });
