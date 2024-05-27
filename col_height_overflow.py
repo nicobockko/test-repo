@@ -80,6 +80,7 @@ def table_ag(x,y):
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 #흠
+
 # 레이아웃 생성
 app.layout = html.Div([
     html.Div(id='disqus_thread'),
