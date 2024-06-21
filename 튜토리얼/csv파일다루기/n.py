@@ -4,4 +4,4 @@
 
 #git remote rm origin
 
-#g
+# git filter-repo --path  pythoncodingskill/parel/file3.txt --invert-paths --force
