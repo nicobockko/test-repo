@@ -5,3 +5,6 @@
 #git remote rm origin
 
 # git filter-repo --path  pythoncodingskill/parel/file3.txt --invert-paths --force
+# git filter-repo --path  pythoncodingskill/parel/file3.txt --invert-paths --force
+
+# git remote -v
