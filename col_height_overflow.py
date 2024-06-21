@@ -9,6 +9,7 @@ from dash import dcc, html, dash_table, Input,Output,State
 import dash_ag_grid as dag  # pip install dash-ag-grid
 import dash_bootstrap_components as dbc
 import pandas as pd
+from dash.dash_table.Format import Format, Scheme, Trim,Symbol
 n=40
 # 샘플 데이터프레임 생성
 def makedf(x,y):
@@ -23,11 +24,13 @@ df_link = pd.DataFrame(
         'Link': ['https://naver.com', None,'https://google.com']
     }
 )
-
+percentage = dash_table.FormatTemplate.percentage(1)
 def table(x,y):
     df = makedf(x,y)
     return dash_table.DataTable(
-        columns=[{"name": i, "id": i} for i in df.columns],
+        # columns=[{"name": i, "id": i,'type':'numeric','format':dict(locale=dict(symbol=['', '%']), specifier='$')} for i in df.columns],
+        columns=[{"name": i, "id": i, 'type': 'numeric', 'format':Format().symbol(Symbol.yes).symbol_prefix('%')} for i in df.columns],
+
         data=df.to_dict('records'),
         css=[{
             'selector': '.dash-table-tooltip',

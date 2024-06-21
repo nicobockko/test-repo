@@ -91,7 +91,7 @@ option = {
 mychart =  dash_echarts.DashECharts(
             option=option,
             id='myecharts',
-            style={'width':'100%', 'height':'500px'}
+            style={'width':'100%', 'height':'100%'}
         )
 
 
@@ -135,7 +135,7 @@ def main():
         dbc.Row([
             dbc.Col(html.Div(mychart,id='aaa'),width=6, lg=9),
             dbc.Col(cards,width=6, lg=3),
-        ],style={'minHeight':'500px'}),
+        ],style={'height':'500px'}),
         dbc.Row([
             dbc.Col('1'),
 
